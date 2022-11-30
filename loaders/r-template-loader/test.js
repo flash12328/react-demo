@@ -1,3 +1,7 @@
+const compile = require('./index.js');
+
+
+const code = `
 import { Fragment, useState } from "react";
 
 export const Menu11 = (props: any) => {
@@ -11,7 +15,7 @@ export const Menu11 = (props: any) => {
                 <ul>
                     {
                         Array.isArray(list) && list.length > 0 && list.map((item, index) => {
-                            return <Fragment r-if="item===2">
+                            return <Fragment>
                                 <li>{item}</li>
                             </Fragment>
                         })
@@ -29,3 +33,7 @@ export const Menu11 = (props: any) => {
         </>
     );
 }
+`;
+
+compile(code);
+console.log("%c Line:19 🍣 compile(code)", "color:#4fff4B", compile(code));
