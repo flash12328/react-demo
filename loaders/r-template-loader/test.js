@@ -21,9 +21,9 @@ export const Menu11 = (props: any) => {
                         })
                     }
                 </ul>
-                <h1 r-if="show1">r-if 二级</h1>
+                <h1 r-if={show1}>r-if 二级</h1>
             </div>
-            <div r-show="show">r-show</div>
+            <div r-show={show}>r-show</div>
             <ul>
                 <li r-for="item in list">{item}</li>
             </ul>

@@ -29,11 +29,17 @@ module.exports = function (content) {
                      * @warn r-if 的值必须是变量，不能是表达式 
                      */
                     if (node.name.name === 'r-if') {
-                        const value = node.value.value;
+                        if (!types.isJSXExpressionContainer(node.value)) {
+                            throw new Error('r-if 的值不是一个对象');
+                        }
+                        if (node.value.expression?.name === undefined) {
+                            throw new Error('r-if 的值不合法');
+                        }
+                        const value = node.value.expression?.name;
                         attributes.splice(index, 1);
                         path.replaceWith(
                             types.jsxExpressionContainer(
-                                types.logicalExpression('&&', types.stringLiteral(value), path.node)
+                                types.logicalExpression('&&', types.identifier(value), path.node)
                             )
                         );
                     }
@@ -43,7 +49,13 @@ module.exports = function (content) {
                      * @warn r-show 的值必须是变量，不能是表达式
                      */
                     if (node.name.name === 'r-show') {
-                        const value = node.value.value;
+                        if (!types.isJSXExpressionContainer(node.value)) {
+                            throw new Error('r-show 的值不是一个对象');
+                        }
+                        if (node.value.expression?.name === undefined) {
+                            throw new Error('r-show 的值不合法');
+                        }
+                        const value = node.value.expression?.name;
                         attributes.splice(index, 1);
                         const conditionalExpression = types.conditionalExpression(types.identifier(value), types.stringLiteral('block'), types.stringLiteral('none'));
                         const objectProperty = types.objectProperty(types.identifier('display'), conditionalExpression);
